@@ -41,6 +41,46 @@ activities = {
     }
 }
 
+# Additional activities
+activities.update({
+    "Soccer Club": {
+        "description": "Outdoor soccer practice and intra-school matches",
+        "schedule": "Tuesdays and Thursdays, 4:00 PM - 6:00 PM",
+        "max_participants": 25,
+        "participants": ["alex@mergington.edu"]
+    },
+    "Basketball Club": {
+        "description": "Basketball drills, conditioning, and games",
+        "schedule": "Wednesdays and Fridays, 4:30 PM - 6:30 PM",
+        "max_participants": 20,
+        "participants": ["noah@mergington.edu"]
+    },
+    "Art Club": {
+        "description": "Explore painting, drawing, and mixed media projects",
+        "schedule": "Mondays, 3:30 PM - 5:00 PM",
+        "max_participants": 18,
+        "participants": ["isabella@mergington.edu"]
+    },
+    "Drama Club": {
+        "description": "Acting workshops, stage production, and performances",
+        "schedule": "Thursdays, 3:30 PM - 5:30 PM",
+        "max_participants": 30,
+        "participants": ["liam@mergington.edu"]
+    },
+    "Debate Team": {
+        "description": "Competitive debating and public speaking practice",
+        "schedule": "Wednesdays, 5:00 PM - 6:30 PM",
+        "max_participants": 16,
+        "participants": ["sophia@mergington.edu"]
+    },
+    "Robotics Club": {
+        "description": "Design, build, and program robots for competitions",
+        "schedule": "Tuesdays and Fridays, 4:00 PM - 6:00 PM",
+        "max_participants": 15,
+        "participants": ["ethan@mergington.edu"]
+    }
+})
+
 
 @app.get("/")
 def root():
@@ -61,6 +101,10 @@ def signup_for_activity(activity_name: str, email: str):
 
     # Get the specific activity
     activity = activities[activity_name]
+
+    # Validate student is not already signed up
+    if email in activity["participants"]:
+        raise HTTPException(status_code=400, detail="Student already signed up")
 
     # Add student
     activity["participants"].append(email)
